@@ -1,13 +1,13 @@
 const User = require('../models/user');
 
 const ErrorHandler = require('../utils/errorHandler');
-const catchAsyncError = require('../middlewares/catchAsyncErrors');
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const sendToken = require('../utils/jwttoken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 
 //Register a User   =>      api/v1/register
-exports.registerUser = catchAsyncError(async (req, res, next) => {
+exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const { name, email, password } = req.body;
 
@@ -27,7 +27,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 );
 
 //Login User    =>  /api/v1/login
-exports.loginUser = catchAsyncError( async(req, res, next) => {
+exports.loginUser = catchAsyncErrors( async(req, res, next) => {
     const { email, password } = req.body;
 
     //Checks if email and password is entered by the user
@@ -53,7 +53,7 @@ exports.loginUser = catchAsyncError( async(req, res, next) => {
 });
 
 //Forgot Password   =>  /api/v1/password/forgot
-exports.forgotPassword = catchAsyncError(
+exports.forgotPassword = catchAsyncErrors(
     async(req, res, next) => {
         const user = await User.findOne({ email: req.body.email });
 
@@ -101,7 +101,7 @@ exports.forgotPassword = catchAsyncError(
 );
 
 //Reset Password   =>  /api/v1/password/reset/:token
-exports.resetPassword = catchAsyncError(
+exports.resetPassword = catchAsyncErrors(
     async (req, res, next) => {
 
         //Hash URL token
@@ -131,8 +131,61 @@ exports.resetPassword = catchAsyncError(
     }
 )
 
+//Get Currently logged in user details  =>  api/v1/me
+exports.getUserProfile = catchAsyncErrors(
+    async (req, res, next) => {
+        const user = await User.findById(req.user.id);
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+    }
+);
+
+//Update or Change password     =>      api/v1/password/update
+exports.updatePassword = catchAsyncErrors(
+    async (req, res, next) => {
+        const user = await User.findById(req.user.id).select('+password');
+
+        //check previous user password
+        const isMatched = await user.comparePassword(req.body.oldPassword);
+        if(!isMatched){
+            return next(new ErrorHandler('Old password is incorrect', 400));
+        }
+
+        user.password = req.body.password;
+        await user.save();
+
+        sendToken(user, 200, res);
+    }
+);
+
+//Update User Profile      =>   /api/v1//me/update
+exports.updateProfile = catchAsyncErrors(
+    async (req, res, next) => {
+        const newUserData = {
+            name: req.body.name,
+            email: req.body.email            
+        };
+
+        //Update Image: TODO
+
+        const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        });
+
+        res.status(200).json({
+            success: true,
+            user
+        })
+    }
+);
+
 //Logout User       =>      /api/v1/logout
-exports.logout = catchAsyncError( async(req, res, next) => {
+exports.logout = catchAsyncErrors( async(req, res, next) => {
     res.cookie('token', null, {
         expires: new Date(Date.now()),
         httpOnly: true
