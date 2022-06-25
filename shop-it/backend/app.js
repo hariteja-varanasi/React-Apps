@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const cors = require('cors');
+
 const cookieParser = require('cookie-parser');
 
 const errorMiddleware = require('./middlewares/errors');
@@ -14,6 +16,7 @@ const auth = require('./routes/auth');
 const admin = require('./routes/admin');
 const orders = require('./routes/order');
 
+app.use(cors({origin: 'http://localhost:4200'}));
 app.use('/api/v1', products);
 app.use('/api/v1', auth);
 app.use('/api/v1', admin);

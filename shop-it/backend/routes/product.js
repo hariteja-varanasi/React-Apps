@@ -13,6 +13,8 @@ const {
     deleteProductReview 
     } = require('../controllers/productController');
 
+const { addHeaders } = require('../utils/addHeaders');
+
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 //router.route('/products').get(isAuthenticatedUser, authorizeRoles('admin'), getProducts);

@@ -1,0 +1,143 @@
+<section class="container-fluid">
+  <section class="row">
+    <div class="col-lg-6 offset-3">
+      <div class="lead border p-3 my-3">
+        <button class="btn btn-outline-warning fs-3" (click)="checkStatus();">
+          {{status ? "Login" : "Register"}}
+        </button>
+      </div>
+    </div>
+  </section>
+  <section class="row">
+    <div class="col-lg-6 offset-3">
+      <div class="lead border p-3 my-3" *ngIf="status">
+        <h3 class="bg-warning p-3 text-center display-5">Register Form</h3>
+        <form action="" [formGroup]="registrationForm" (ngSubmit)="registerUser(registrationForm.value)">
+          <div class="form-group my-3 fs-3">
+            <label for="name">Enter Name</label>
+            <input type="text" class="form-control fs-3" placeholder="Enter Name" name="name" id="name" formControlName="name" />
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['name'].hasError('required')
+                  && registrationForm.controls['name'].touched">
+              Name is required
+            </div>
+          </div>
+          <div class="form-group my-3 fs-3">
+            <label for="mobile">Enter Mobile Number</label>
+            <input type="number" class="form-control fs-3" placeholder="Enter Mobile" name="mobile" id="mobile" formControlName="mobile" />
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['mobile'].hasError('required')
+                  && registrationForm.controls['mobile'].touched">
+              Mobile is required
+            </div>
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['mobile'].hasError('pattern')
+                  && registrationForm.controls['mobile'].touched">
+              Invalid Mobile Number
+            </div>
+          </div>
+          <div class="form-group my-3 fs-3">
+            <label for="email">Enter Email ID</label>
+            <input type="email" class="form-control fs-3" placeholder="Enter Email" name="email" id="email" formControlName="email" />
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['email'].hasError('required')
+                  && registrationForm.controls['email'].touched">
+              Email is required
+            </div>
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['email'].hasError('email')
+                  && registrationForm.controls['email'].touched">Invalid Email ID
+            </div>
+          </div>
+          <div class="form-group my-3 fs-3">
+            <label for="password">Enter Password</label>
+            <input type="password" class="form-control fs-3" name="password" id="password" formControlName="password">
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['password'].hasError('required')
+                  && registrationForm.controls['password'].touched">
+              Password is required
+            </div>
+          </div>
+          <div class="form-group my-3 fs-3">
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              class="form-control fs-3"
+              name="confirmPassword"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+            >
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['confirmPassword'].hasError('required')
+                  && registrationForm.controls['confirmPassword'].touched">
+              Please confirm the password
+            </div>
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['confirmPassword'].hasError('mustMatch')
+                  && registrationForm.controls['confirmPassword'].touched">
+              Passwords do not match
+            </div>
+          </div>
+          <div class="form-group my-3 fs-3">
+            <label for="roleSelect">Role: </label>
+            <select name="roleSelect" id="roleSelect" class="form-select fs-3" formControlName="role">
+                <option value="{{role}}" class="fs-3" *ngFor="let role of roles">{{role}}</option>
+            </select>
+            <div class="alert alert-danger fs-3"
+                 *ngIf="registrationForm.controls['role'].hasError('required')
+                  && registrationForm.controls['role'].touched">
+              Role is required
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-outline-warning fs-4" type="submit">Submit</button>
+            <button class="btn btn-outline-danger mx-3 fs-4" type="button" (click)="checkStatus();">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-6 offset-3">
+      <div class="lead border p-3 my-3" *ngIf="!status">
+        <h3 class="bg-warning p-3 text-center display-5">Login Form</h3>
+        <form action="" [formGroup]="loginForm" (ngSubmit)="authenticateUser(loginForm.value)" novalidate>
+          <div class="form-group my-3 fs-3"
+               [ngClass]="{'has-error':!loginForm.controls['email'].valid
+               && loginForm.controls['email'].touched}">
+            <label for="email">Enter Email ID</label>
+            <input type="email" class="form-control fs-3" placeholder="Enter Email" name="loginEmail" id="loginEmail" formControlName="email" />
+            <div class="alert alert-danger fs-3"
+                 *ngIf="loginForm.controls['email'].hasError('required')
+                  && loginForm.controls['email'].touched">
+              Email ID is required
+            </div>
+            <div class="alert alert-danger fs-3"
+                 *ngIf="loginForm.controls['email'].hasError('email')
+                  && loginForm.controls['email'].touched">
+              Not a valid email
+            </div>
+          </div>
+          <div class="form-group my-3 fs-3"
+               [ngClass]="{'has-error':!loginForm.controls['password'].valid
+               && loginForm.controls['password'].touched}">
+            <label for="password">Enter Password</label>
+            <input type="password" class="form-control fs-3" name="loginPassword" id="loginPassword" formControlName="password">
+            <div class="alert alert-danger fs-3"
+                 *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+              Password is required
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-outline-warning fs-4" type="submit">Submit</button>
+            <button class="btn btn-outline-danger mx-3 fs-4" type="button" (click)="checkStatus();">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</section>
+
+<footer class="py-1">
+  <p class="text-center textwhite mt-1 fs-3">
+    Shopping Cart - 2021-2022, All Rights Reserved.
+  </p>
+</footer>

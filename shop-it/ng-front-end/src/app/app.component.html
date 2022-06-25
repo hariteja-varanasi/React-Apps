@@ -1,0 +1,37 @@
+<nav class="navbar row">
+  <div class="col-12 col-md-3">
+    <div class="navbar-brand input-group">
+      <a class="fs-2" id="home_btn" routerLink="/home">
+        <img src="../assets/images/shopit_logo.png" alt="" class="img-fluid" />
+      </a>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6 mt-2mt-md-0">
+    <div class="input-group">
+      <input
+        type="text"
+        id="search_field"
+        class="form-control fs-3"
+        placeholder="Enter Product Name ..." />
+      <div class="input-group-append">
+        <button id="search_btn" class="btn">
+          <i class="fa fa-search fa-2x text-white" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-3 mt-4mt-md-0 text-center">
+    <a class="btn fs-3 mx-3" id="login_btn"
+       routerLink="/login" *ngIf="!loginIndicator">Login</a>
+    <button class="btn fs-3 mx-3" id="logout_btn" *ngIf="loginIndicator" (click)="logout();">
+      Logout
+    </button>
+
+    <span id="cart" class="px-3 fs-3 my-3">Cart</span>
+    <span class="btn fs-3 mx-3" id="cart_count">2</span>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
