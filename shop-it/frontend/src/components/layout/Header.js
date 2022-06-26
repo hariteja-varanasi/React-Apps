@@ -20,7 +20,7 @@ const header = () => {
                         placeholder="Enter Product Name ..." />
                     <div className="input-group-append">
                         <button id="search_btn" className="btn">
-                            <i className="fa fa-search" aria-hidden="true"></i>
+                            <i className="fa fa-search fa-2x text-white" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -30,7 +30,7 @@ const header = () => {
                 <button className="btn fs-3 mx-3" id="login_btn">Login</button>
                 
                 <span id="cart" className="px-3 fs-3 my-3">Cart</span>
-                <span className="fs-3 p-3" id="cart_count">2</span>
+                <span className="btn fs-3 mx-3" id="cart_count">2</span>
             </div>
         </nav>
     </Fragment>
