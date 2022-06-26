@@ -23,8 +23,10 @@ exports.newProduct = catchAsyncErrors(
 exports.getProducts = catchAsyncErrors(
     async (req, res, next) => {
 
-        const resultsPerPage = 10;
-        const productCount = await Product.countDocuments();
+        const resultsPerPage = 8;
+        const productsCount = await Product.countDocuments();
+
+        console.log("productsCount in product controller : ", productsCount);
 
         const apiFeatures = new APIFeatures(Product.find(), req.query)
                             .search()
@@ -32,13 +34,17 @@ exports.getProducts = catchAsyncErrors(
                             .pagination(resultsPerPage);
 
         const products = await apiFeatures.query;
-    
-        res.status(200).json({
-            success: true,
-            count: products.length,
-            message: 'All products in database.',
-            products
-        })
+
+        setTimeout(() => {
+            res.status(200).json({
+                success: true,
+                count: products.length,
+                message: 'All products in database.',
+                resultsPerPage,
+                productsCount,
+                products
+            });
+        }, 1000);
     }
 );
 

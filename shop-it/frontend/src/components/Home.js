@@ -1,52 +1,75 @@
-import React, { Fragment, useEffect } from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 
 import '../App.css';
 
 import MetaData from './layout/MetaData';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../actions/productsActions';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {getProducts} from '../actions/productsActions';
+import {Product} from './product/Product';
+import {Loader} from './layout/Loader';
+import {useAlert} from 'react-alert';
+import Pagination from 'react-js-pagination';
 
 const Home = () => {
+
+    let [currentPage, setCurrentPage] = useState(1);
+
+    const alert = useAlert();
     const dispatch = useDispatch();
 
-    const { loading, products, error, productsCount } = useSelector(state => state.products);
+    const {loading, products, error, productsCount, resultsPerPage} = useSelector(state => state.products);
 
     useEffect(() => {
-        dispatch(getProducts());
-    }, [dispatch]);
+
+        if (error) {
+            return alert.error(error);
+        }
+
+        console.log("Current Page Number: ", currentPage);
+        dispatch(getProducts(currentPage));
+
+    }, [dispatch, alert, error]);
+
+    function setCurrentPageNo(pageNumber) {
+        console.log("Page Number Changed to: ", pageNumber);
+        setCurrentPage((pageNumber) => pageNumber + 1);
+    }
 
     return (
-        <div className="container container-fluid">
-            <h1 className="display-1">Latest Products</h1>
-            <section id="products" className="container mt-5">
-                <div className="row">
-                    {products && products.length>0 && products.map(product => {
-                        return (<div key={product._id} className="col-sm-12 col-md-6 col-lg-3 p-3 m-3 bg-light">
-                            <div className="card p-3 rounded">
-                                <img src={product.images[0].url} alt="" className="card-img-top mx-auto" />
-                                <div className="card-body d-flex flex-column">
-                                    <h5>
-                                        <a href="">{product.name}</a>
-                                    </h5>
-                                    <div className="ratings my-2">
-                                        <i className="fa fa-star fs-3"></i>
-                                        <i className="fa fa-star fs-3"></i>
-                                        <i className="fa fa-star fs-3"></i>
-                                        <i className="fa fa-star fs-3"></i>
-                                        <i className="fa fa-star fs-3"></i>
-                                        <span id="no_of_reviews" className="fs-6">(5 Reviews)</span>
-                                    </div>
-                                    <p className="card-text fs-4">$125.57</p>
-                                    <a href="" id="view_btn" className="btn btn-block fs-4">View Details</a>
-                                </div>
+        <Fragment>
+            {loading ? <Loader/> :
+                <Fragment>
+                    <MetaData title={'Buy Best Products Online'}/>
+                    <div className="container-fluid offset-1">
+                        <h1 className="display-1">Latest Products</h1>
+                        <section id="products" className="container-fluid mt-5">
+                            <div className="row">
+                                {products && products.length > 0 && products.map(product => {
+                                    return (<Product key={product._id} product={product}/>)
+                                })}
                             </div>
-                        </div>)
-                    })}
-                </div>
-            </section>
-        </div>
+                        </section>
+                    </div>
+
+                    <div className="d-flex justify-content-center mt-5 text-dark fs-3">
+                        <Pagination
+                            activePage={currentPage}
+                            itemsCountPerPage={resultsPerPage}
+                            totalItemsCount={productsCount ? productsCount : 0}
+                            onChange={setCurrentPageNo}
+                            nextPageText={'Next'}
+                            prevPageText={'Prev'}
+                            firstPageText={'First'}
+                            lastPageText={'Last'}
+                            itemClass="page-item"
+                            linkClass="page-link fs-4 text-dark"
+                        />
+                    </div>
+
+                </Fragment>
+            }
+        </Fragment>
     );
 }
 
