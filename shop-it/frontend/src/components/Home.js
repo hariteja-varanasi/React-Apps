@@ -10,6 +10,7 @@ import {Product} from './product/Product';
 import {Loader} from './layout/Loader';
 import {useAlert} from 'react-alert';
 import Pagination from 'react-js-pagination';
+import {useParams} from "react-router-dom";
 
 const Home = () => {
 
@@ -20,20 +21,20 @@ const Home = () => {
 
     const {loading, products, error, productsCount, resultsPerPage} = useSelector(state => state.products);
 
+    const {keyword} = useParams();
+
     useEffect(() => {
 
         if (error) {
             return alert.error(error);
         }
 
-        console.log("Current Page Number: ", currentPage);
-        dispatch(getProducts(currentPage));
+        dispatch(getProducts(keyword, currentPage));
 
-    }, [dispatch, alert, error]);
+    }, [dispatch, alert, error, keyword, currentPage]);
 
     function setCurrentPageNo(pageNumber) {
-        console.log("Page Number Changed to: ", pageNumber);
-        setCurrentPage((pageNumber) => pageNumber + 1);
+        setCurrentPage(pageNumber);
     }
 
     return (
@@ -51,7 +52,6 @@ const Home = () => {
                             </div>
                         </section>
                     </div>
-
                     <div className="d-flex justify-content-center mt-5 text-dark fs-3">
                         <Pagination
                             activePage={currentPage}
