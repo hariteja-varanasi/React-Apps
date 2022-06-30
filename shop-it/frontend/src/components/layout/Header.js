@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import '../../App.css';
-import {Route, Routes, BrowserRouter, useHistory} from 'react-router-dom';
+import {Route, Routes, BrowserRouter, useHistory, Link} from 'react-router-dom';
 import Search from "./Search";
 import Home from "../Home";
 
@@ -11,9 +11,9 @@ const header = () => {
             <nav className="navbar row">
                 <div className="col-12 col-md-3">
                     <div className="navbar-brand">
-                        <a href="/">
+                        <Link to="/">
                             <img src="/images/shopit_logo.png" alt=""/>
-                        </a>
+                        </Link>
                     </div>
                 </div>
 

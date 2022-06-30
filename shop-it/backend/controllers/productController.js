@@ -26,8 +26,6 @@ exports.getProducts = catchAsyncErrors(
         const resultsPerPage = 8;
         const productsCount = await Product.countDocuments();
 
-        console.log("productsCount in product controller : ", productsCount);
-
         const apiFeatures = new APIFeatures(Product.find(), req.query)
                             .search()
                             .filter()
@@ -35,16 +33,14 @@ exports.getProducts = catchAsyncErrors(
 
         const products = await apiFeatures.query;
 
-        setTimeout(() => {
-            res.status(200).json({
-                success: true,
-                count: products.length,
-                message: 'All products in database.',
-                resultsPerPage,
-                productsCount,
-                products
-            });
-        }, 1000);
+        res.status(200).json({
+            success: true,
+            count: products.length,
+            message: 'All products in database.',
+            resultsPerPage,
+            productsCount,
+            products
+        });
     }
 );
 

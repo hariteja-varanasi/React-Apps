@@ -10,8 +10,8 @@ function Search() {
     const searchHandler = (e) => {
         e.preventDefault();
 
-        if(keyword) {
-            history(`/search/${keyword}`);
+        if(keyword.trim()) {
+           history(`/search/${keyword}`);
         }
         else{
             history(`/`);

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-export function Product({product}) {
+export function Product({product, col}) {
     return (
-        <div className="col-sm-12 col-md-6 col-lg-2 offset-lg-3 p-3 m-3 bg-light">
+        <div className={`col-sm-12 col-md-6 col-lg-${col} offset-lg-3 p-3 m-3 bg-light`}>
             <div className="card p-3 rounded">
                 <img src={product.images[0].url} alt="" className="card-img-top mx-auto" />
                 <div className="card-body d-flex flex-column">
