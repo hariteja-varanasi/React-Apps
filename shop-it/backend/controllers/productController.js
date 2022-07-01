@@ -29,9 +29,11 @@ exports.getProducts = catchAsyncErrors(
         const apiFeatures = new APIFeatures(Product.find(), req.query)
                             .search()
                             .filter()
-                            .pagination(resultsPerPage);
 
-        const products = await apiFeatures.query;
+        let products = await apiFeatures.query;
+        let filteredProductsCount = products.length;
+
+        apiFeatures.pagination(resultsPerPage);
 
         res.status(200).json({
             success: true,
@@ -39,6 +41,7 @@ exports.getProducts = catchAsyncErrors(
             message: 'All products in database.',
             resultsPerPage,
             productsCount,
+            filteredProductsCount,
             products
         });
     }
