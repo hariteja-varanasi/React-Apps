@@ -6,7 +6,7 @@ import MetaData from '../layout/MetaData';
 
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { login, clearErrors } from "../../actions/userActions";
+import {login, clearErrors, register} from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -19,18 +19,20 @@ const Login = () => {
 
     const history = useNavigate();
 
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
+    const { isAuthenticated, user, error, loading } = useSelector(state => state.auth);
 
     useEffect(() => {
 
         if(isAuthenticated) {
+            if(error){
+                dispatch(clearErrors());
+            }
             history('/');
         }
 
-        if(error) {
-            console.log("Error in Login is: ", error);
+        if(user && error) {
+            console.log("inside login component error", user);
             alert.error(error);
-            dispatch(clearErrors());
         }
 
     }, [dispatch, alert, isAuthenticated, error, history])
@@ -84,22 +86,22 @@ const Login = () => {
                                                 </button>
                                             </center>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group my-3">
                                             <Link to="/password/forgot" className="float-right fs-3 mx-5 text-danger">Forgot Password</Link>
                                             <Link to="/register" className="float-right fs-3 mx-5 text-success">New User?</Link>
                                         </div>
                                     </form>
-                                    {error ?
+                                    {user && error ?
                                         (
                                             <div className="lead p-3">
                                                 <div className="alert alert-danger">
-                                                    {error}
+                                                    <p className="text-danger text-center fs-1">{error}!</p>
                                                 </div>
                                             </div>
                                         ) :
                                         (
                                             <div className="lead p-3">
-                                                <p className="text-warning text-center fs-1">Please Login</p>
+                                                <p className="text-warning text-center fs-1">Please Login!</p>
                                             </div>
                                         )
                                     }
@@ -107,7 +109,6 @@ const Login = () => {
                             </div>
                         </div>
                     </Fragment>
-
             }
         </Fragment>
     );

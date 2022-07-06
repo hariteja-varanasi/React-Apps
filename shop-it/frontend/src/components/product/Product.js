@@ -4,17 +4,17 @@ import {Link} from "react-router-dom";
 export function Product({product, col}) {
     return (
         <div className={`col-sm-12 col-md-6 col-lg-${col} offset-lg-3 p-3 m-3 bg-light`}>
-            <div className="card p-3 rounded">
-                <img src={product.images[0].url} alt="" className="card-img-top mx-auto" />
+            <div className="card p-3 m-3 rounded h-100">
+                <img src={product.images[0].url} alt="" className="img-fluid" />
                 <div className="card-body d-flex flex-column">
-                    <h5>
-                        <Link to={`/product/${product._id}`}>{product.name}</Link>
-                    </h5>
-                    <div className="ratings mt-auto">
+                    <div className="mt-auto align-bottom fs-3">
+                        <Link to={`/product/${product._id}`} id="product_name">{product.name}</Link>
+                    </div>
+                    <div className="ratings">
                         <div className="rating-outer">
                             <div className="rating-inner" style={
                                 {
-                                    width: `${(product.ratings/5) * 100}%`
+                                    width: `${(product.ratings/5) * 100}%`,
                                 }}>
                             </div>
                         </div>

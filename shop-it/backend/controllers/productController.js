@@ -23,27 +23,29 @@ exports.newProduct = catchAsyncErrors(
 exports.getProducts = catchAsyncErrors(
     async (req, res, next) => {
 
-        const resultsPerPage = 8;
+        const resultsPerPage = 9;
         const productsCount = await Product.countDocuments();
 
         const apiFeatures = new APIFeatures(Product.find(), req.query)
                             .search()
                             .filter()
+                            .pagination(resultsPerPage);
 
-        let products = await apiFeatures.query;
-        let filteredProductsCount = products.length;
+         const products = await apiFeatures.query;
+         const filteredProductsCount = products.length;
 
-        apiFeatures.pagination(resultsPerPage);
+         setTimeout(() => {
+             res.status(200).json({
+                 success: true,
+                 count: products.length,
+                 message: 'All products in database.',
+                 resultsPerPage,
+                 productsCount,
+                 filteredProductsCount,
+                 products
+             })
+         }, 1000);
 
-        res.status(200).json({
-            success: true,
-            count: products.length,
-            message: 'All products in database.',
-            resultsPerPage,
-            productsCount,
-            filteredProductsCount,
-            products
-        });
     }
 );
 

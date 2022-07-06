@@ -1,10 +1,26 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment} from 'react';
 import '../../App.css';
-import {Route, Routes, BrowserRouter, useHistory, Link} from 'react-router-dom';
-import Search from "./Search";
-import Home from "../Home";
+import { Link } from 'react-router-dom';
+import  Search from "./Search";
 
-const header = () => {
+import { logout } from "../../actions/userActions";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
+import {Dropdown} from "react-bootstrap";
+
+
+const Header = () => {
+
+    const alert = useAlert();
+    const dispatch = useDispatch();
+
+    const { user, loading } = useSelector(state => state.auth);
+
+    const logoutHandler = () => {
+        dispatch(logout());
+        alert.success("User Logged Out Successfully.");
+    }
 
     return (
         <Fragment>
@@ -21,15 +37,77 @@ const header = () => {
                     <Search />
                 </div>
 
-                <div className="col-12 col-md-3 mt-4mt-md-0 text-center">
-                    <Link to="/login" className="btn fs-3 mx-3" id="login_btn">Login</Link>
+                <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
 
-                    <span id="cart" className="px-3 fs-3 my-3">Cart</span>
-                    <span className="btn fs-3 mx-3" id="cart_count">2</span>
+                    <Link to="/cart" style={{
+                        textDecoration: 'none',
+                        marginLeft: '10rem'
+                    }}>
+                        <span id="cart" className="btn fs-3">Cart</span>
+                        <span className="btn fs-3 rounded-pill" id="cart_count">2</span>
+                    </Link>
+
+                    {
+                        user ?
+                            (
+                                <Dropdown id="userIdDropdown" className="d-inline float-end" style={{
+                                    textDecoration : 'none'
+                                }}>
+                                    <Dropdown.Toggle variant="none" id="dropdown-basic">
+                                        <figure className="avatar avatar-nav">
+                                            <img
+                                                src={user.avatar && user.avatar.url}
+                                                alt={user && user.name}
+                                                className="rounded-circle"
+                                            />
+                                        </figure>
+                                        <span id="user_name" className="fs-4">{user && user.name}</span>
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu>
+                                        {
+                                            user && user.role !== 'admin' ?
+                                                (
+                                                    <Dropdown.Item>
+                                                        <Link className="dropdown-item fs-3" to="/orders/me">
+                                                            Orders
+                                                        </Link>
+                                                    </Dropdown.Item>
+                                                ) :
+                                                (
+                                                    <Dropdown.Item>
+                                                        <Link className="dropdown-item fs-3" to="/dashboard">
+                                                            Dashboard
+                                                        </Link>
+                                                    </Dropdown.Item>
+
+                                                )
+                                        }
+                                        <Dropdown.Item>
+                                            <Link className="dropdown-item fs-3" to="/me">
+                                                Profile
+                                            </Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item>
+                                            <Link
+                                                className="dropdown-item text-danger fs-3"
+                                                to="/" onClick={logoutHandler}
+                                            >
+                                                Logout
+                                            </Link>
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            )
+                            :
+                            (
+                                !loading && <Link to="/login" className="btn fs-3 mx-3" id="login_btn">Login</Link>
+                            )
+                    }
                 </div>
             </nav>
         </Fragment>
     );
 }
 
-export default header;
+export default Header;

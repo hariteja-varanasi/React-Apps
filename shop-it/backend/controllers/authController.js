@@ -5,23 +5,22 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const sendToken = require('../utils/jwttoken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
+const cloudinary = require('cloudinary');
+const { v4: uuidv4 } = require('uuid');
 
 //Register a User   =>      api/v1/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
-    console.log("req body is : ", req.body);
-
+    const avatarUUID = uuidv4();
     const { name, email, password } = req.body;
-
     const user = await User.create({
-        name, 
-        email, 
+        name,
+        email,
         password,
         avatar: {
-            public_id: 'deafde03-901a-4315-9739-f31007ea2709',
-            url: 'https://randomuser.me/api/portraits/men/36.jpg'
+            public_id: avatarUUID,
+            url: req.body.avatar
         }
-
     });
 
     sendToken(user, 200, res);
@@ -168,12 +167,20 @@ exports.updatePassword = catchAsyncErrors(
 //Update User Profile      =>   /api/v1//me/update
 exports.updateProfile = catchAsyncErrors(
     async (req, res, next) => {
-        const newUserData = {
+        let newUserData = {
             name: req.body.name,
             email: req.body.email            
         };
 
-        //Update Image: TODO
+        //Update Image
+        if(req.body.avatar !== '') {
+            const user = await User.findById(req.user.id);
+            const image_id = await user.avatar.public_id;
+            newUserData.avatar = {
+                public_id : image_id,
+                url : req.body.avatar
+            };
+        }
 
         const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
             new: true,

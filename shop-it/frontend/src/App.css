@@ -64,13 +64,14 @@ nav {
 
 #login_btn,
 #view_btn,
+#cart_count,
 #logout_btn {
   background-color: #febd69;
   padding: 0.4rem 1.8rem;
 }
 
-#cart {
-  font-size: 1rem;
+#cart, #user_name {
+  padding: 0.4rem 1.8rem;
   color: white;
 }
 
@@ -371,9 +372,10 @@ footer {
 /* Header User Profile */
 
 .avatar-nav {
-  margin-right: 0.6rem;
-  height: 2.2rem;
-  width: 2.2rem;
+  margin-right: 0rem;
+  margin-left: 0.6rem;
+  height: 3.5rem;
+  width: 3.5rem;
 }
 
 /* Checkout Steps */
@@ -458,7 +460,7 @@ footer {
 }
 
 .user-info h4 {
-  font-weight: 800;
+  font-weight: 700;
   color: grey;
   margin-top: 2rem;
 }
@@ -645,4 +647,15 @@ footer {
   height: 30px;
   line-height: 60px;
   background-color: #f5f5f5;
+}
+
+#userIdDropdown{
+  color: white;
+  background-color: #232f3e;
+}
+
+#product_name{
+  font-size: calc(0.5rem + 0.9vw);
+  font-weight: 300;
+  line-height: 1.5;
 }

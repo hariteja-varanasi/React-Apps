@@ -149,7 +149,6 @@ const Home = () => {
                                         <Product key={product._id} product={product} col={3}/>
                                     )))
                                 )}
-
                             </div>
                         </section>
                     </div>
@@ -169,8 +168,6 @@ const Home = () => {
                             />
                         </div>
                     )}
-
-
                 </Fragment>
             }
         </Fragment>
