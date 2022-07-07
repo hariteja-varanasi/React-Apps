@@ -14,6 +14,8 @@ import { loadUser } from "./actions/userActions";
 import store from './store/store';
 import Profile from "./components/user/Profile";
 import UpdateProfile from "./components/user/UpdateProfile";
+import UpdatePassword from "./components/user/UpdatePassword";
+import ForgotPassword from "./components/user/ForgotPassword";
 
 function App() {
 
@@ -57,6 +59,18 @@ function App() {
                                <UpdateProfile />
                            </ProtectedRoute>
                        } exact
+                   />
+                   <Route
+                       path="/password/update"
+                       element={
+                           <ProtectedRoute>
+                               <UpdatePassword />
+                           </ProtectedRoute>
+                       } exact
+                   />
+                   <Route
+                       path="/password/forgot"
+                       element={<ForgotPassword />} exact
                    />
                </Routes>
                <Footer />

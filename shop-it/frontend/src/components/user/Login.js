@@ -30,8 +30,11 @@ const Login = () => {
             history('/');
         }
 
+        if(error) {
+            alert.error(error);
+        }
+
         if(user && error) {
-            console.log("inside login component error", user);
             alert.error(error);
         }
 
@@ -91,20 +94,6 @@ const Login = () => {
                                             <Link to="/register" className="float-right fs-3 mx-5 text-success">New User?</Link>
                                         </div>
                                     </form>
-                                    {user && error ?
-                                        (
-                                            <div className="lead p-3">
-                                                <div className="alert alert-danger">
-                                                    <p className="text-danger text-center fs-1">{error}!</p>
-                                                </div>
-                                            </div>
-                                        ) :
-                                        (
-                                            <div className="lead p-3">
-                                                <p className="text-warning text-center fs-1">Please Login!</p>
-                                            </div>
-                                        )
-                                    }
                                 </div>
                             </div>
                         </div>

@@ -1,16 +1,16 @@
 const nodemailer = require('nodemailer');
 
 const sendEmail = async options => {
-    var transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD
-        }
-      });
+    // let transporter = nodemailer.createTransport({
+    //     host: process.env.SMTP_HOST,
+    //     port: process.env.SMTP_PORT,
+    //     auth: {
+    //       user: process.env.SMTP_USER,
+    //       pass: process.env.SMTP_PASSWORD
+    //     }
+    //   });
 
-      /*var transporter = nodemailer.createTransport({
+      /*let transporter = nodemailer.createTransport({
         service: process.env.SMTP_GMAIL_SERVICE,        
         auth: {
           user: process.env.SMTP_GMAIL_USER,
@@ -18,8 +18,18 @@ const sendEmail = async options => {
         }
       });*/
 
+    let transporter = nodemailer.createTransport({
+        host: process.env.SMTP_GMAIL_HOST,
+        port: process.env.SMTP_GMAIL_PORT,
+        secure: process.env.SMTP_GMAIL_SECURE,
+        auth: {
+            user: process.env.SMTP_GMAIL_USER,
+            pass: process.env.SMTP_GMAIL_PASSWORD
+        }
+    });
+
       const message = {
-        from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_GMAIL_FROM_EMAIL}>`,
+        from: `noreply@shopit.com`,
         to: options.email,
         subject: options.subject,
         text: options.message

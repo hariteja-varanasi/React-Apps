@@ -55,7 +55,7 @@ exports.loginUser = catchAsyncErrors( async(req, res, next) => {
     sendToken(user, 200, res);
 });
 
-//Forgot Password   =>  /api/v1/password/forgot
+//Forgot Password   =>  /api/v1/forgot-password
 exports.forgotPassword = catchAsyncErrors(
     async(req, res, next) => {
         const user = await User.findOne({ email: req.body.email });
