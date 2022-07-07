@@ -53,7 +53,7 @@ const Login = () => {
                     <Fragment>
                         <MetaData title={'Login'} />
                         <div className="row">
-                            <div className="col-lg-4 offset-4 border border-dark my-5">
+                            <div className="col-lg-5 offset-4 border border-dark my-5">
                                 <div className="lead border p-3 my-3">
                                     <form onSubmit={submitHandler}>
                                         <center>
