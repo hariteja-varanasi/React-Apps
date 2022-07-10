@@ -10,7 +10,8 @@ import AlertTemplate from 'react-alert-template-basic';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
-import '../node_modules/bootstrap/dist/js/bootstrap'
+import '../node_modules/bootstrap/dist/js/bootstrap';
+import '../node_modules/font-awesome/css/font-awesome.css';
 
 const options = {
     timeout: 5000,

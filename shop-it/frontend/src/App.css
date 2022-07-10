@@ -402,7 +402,6 @@ footer {
   color: grey;
   text-decoration: none;
   cursor: default;
-  font-weight: bold;
   float: left;
   height: auto;
 }
@@ -656,6 +655,12 @@ footer {
 
 #product_name{
   font-size: calc(0.5rem + 0.9vw);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+checkout-steps{
+  font-size: calc(1.5rem + 0.9vw);
   font-weight: 300;
   line-height: 1.5;
 }

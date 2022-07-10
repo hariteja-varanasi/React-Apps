@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import{ Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductDetails, clearErrors } from "../../actions/productsActions";
@@ -6,6 +6,7 @@ import { useAlert } from "react-alert";
 import { useParams } from "react-router-dom";
 import Loader from '../layout/Loader';
 import MetaData from "../layout/MetaData";
+import { addItemToCart } from "../../actions/cartActions";
 
 export function ProductDetails() {
 
@@ -14,6 +15,8 @@ export function ProductDetails() {
     const alert = useAlert();
 
     const dispatch = useDispatch();
+
+    const [quantity, setQuantity] = useState(1);
 
     const {loading, error, product} = useSelector(state => state.productDetails);
 
@@ -26,7 +29,28 @@ export function ProductDetails() {
         }
     }, [dispatch, alert, error, id]);
 
-    console.log('product in product details: ', product.product);
+    const decreaseQuantity = () => {
+        const count = document.querySelector('.count');
+        if(count.valueAsNumber <= 1) {
+            return;
+        }
+        const qty = count.valueAsNumber - 1;
+        setQuantity(qty);
+    }
+
+    const increaseQuantity = () => {
+        const count = document.querySelector('.count');
+        if(count.valueAsNumber >= product.stock) {
+            return;
+        }
+        const qty = count.valueAsNumber + 1;
+        setQuantity(qty);
+    }
+
+    const addToCart = () => {
+        dispatch(addItemToCart(id, quantity));
+        alert.success("Item added to cart");
+    }
 
     return (
         <Fragment>
@@ -68,13 +92,21 @@ export function ProductDetails() {
                                 <p id="product_price" className="fs-3">${product.price}</p>
 
                                 <div className="stockCounter d-inline">
-                                    <span className="btn btn-danger minus">-</span>
+                                    <span className="btn btn-danger minus fs-3 position-static" onClick={decreaseQuantity}>-</span>
 
-                                    <input type="number" className="form-control count d-inline" value="1" readOnly/>
+                                    <input
+                                        type="number"
+                                        className="form-control count d-inline fs-3 my-5"
+                                        style={{
+                                            width: "4.5rem"
+                                        }}
+                                        value={quantity}
+                                        readOnly
+                                    />
 
-                                    <span className="btn btn-primary plus">+</span>
+                                    <span className="btn btn-primary plus fs-3 my-5" onClick={increaseQuantity}>+</span>
                                 </div>
-                                <button type="button" id="cart_btn" className="btn btn-primary d-inline mx-3">Add to
+                                <button type="button" id="cart_btn" className="btn btn-primary d-inline mx-3 fs-3" onClick={addToCart}>Add to
                                     Cart
                                 </button>
 
@@ -85,15 +117,13 @@ export function ProductDetails() {
                                 <hr/>
 
                                 <h4 className="display-5 mt-2">Description: </h4>
-                                <p className="fs-3">Your perfect pack for everyday use and walks in the forest. Stash
-                                    your laptop (up to 15 inches)
-                                    in the padded sleeve, your everyday.</p>
+                                <p className="fs-3">{product.description}</p>
 
                                 <hr/>
 
-                                <p id="product_seller" className="mb-3 fs-3">Sold By: <strong>Ebay</strong></p>
+                                <p id="product_seller" className="mb-3 fs-3">Sold By: <strong>{product.seller}</strong></p>
 
-                                <button id="review_btn" type="button" className="btn btn-primary mt-4"
+                                <button id="review_btn" type="button" className="btn btn-primary mt-4 fs-3"
                                         data-toggle="modal"
                                         data-target="#ratingModal">
                                     Submit Your Review

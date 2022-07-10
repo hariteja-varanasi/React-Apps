@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 import Loader from '../layout/Loader';
 import MetaData from '../layout/MetaData';
@@ -19,6 +19,13 @@ const Login = () => {
 
     const history = useNavigate();
 
+    const location = useLocation();
+
+    //console.log("location.search.split('=')[1] is ", location.search.split('=')[1]);
+    const redirect = location.search ? '/' + location.search.split('=')[1] : '/';
+
+    console.log("redirect is ", redirect);
+
     const { isAuthenticated, user, error, loading } = useSelector(state => state.auth);
 
     useEffect(() => {
@@ -27,7 +34,7 @@ const Login = () => {
             if(error){
                 dispatch(clearErrors());
             }
-            history('/');
+            history(redirect);
         }
 
         if(error) {

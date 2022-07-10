@@ -17,6 +17,8 @@ const Header = () => {
 
     const { user, loading } = useSelector(state => state.auth);
 
+    const { cartItems } = useSelector(state => state.cart);
+
     const logoutHandler = () => {
         dispatch(logout());
         alert.success("User Logged Out Successfully.");
@@ -25,7 +27,7 @@ const Header = () => {
     return (
         <Fragment>
             <nav className="navbar row">
-                <div className="col-12 col-md-3">
+                <div className="col-3 col-lg-3 col-md-3 col-sm-3">
                     <div className="navbar-brand">
                         <Link to="/">
                             <img className="img-fluid" src="/images/shopit_logo.png" alt=""/>
@@ -33,18 +35,18 @@ const Header = () => {
                     </div>
                 </div>
 
-                <div className="col-12 col-md-6 mt-2mt-md-0">
+                <div className="col-6 col-lg-6 col-md-6 col-sm-6 mt-2mt-md-0">
                     <Search />
                 </div>
 
-                <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
+                <div className="col-3 col-lg-3 col-md-3 col-sm-3 mt-4 mt-md-0 text-center">
 
                     <Link to="/cart" style={{
                         textDecoration: 'none',
                         marginLeft: '10rem'
                     }}>
                         <span id="cart" className="btn fs-3">Cart</span>
-                        <span className="btn fs-3 rounded-pill" id="cart_count">2</span>
+                        <span className="btn fs-3 rounded-pill" id="cart_count">{cartItems.length}</span>
                     </Link>
 
                     {
