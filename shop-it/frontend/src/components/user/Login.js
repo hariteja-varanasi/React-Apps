@@ -24,8 +24,6 @@ const Login = () => {
     //console.log("location.search.split('=')[1] is ", location.search.split('=')[1]);
     const redirect = location.search ? '/' + location.search.split('=')[1] : '/';
 
-    console.log("redirect is ", redirect);
-
     const { isAuthenticated, user, error, loading } = useSelector(state => state.auth);
 
     useEffect(() => {

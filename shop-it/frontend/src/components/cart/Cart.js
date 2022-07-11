@@ -9,17 +9,11 @@ import { addItemToCart, removeItemFromCart } from "../../actions/cartActions";
 
 const Cart = () => {
 
-    const alert = useAlert();
-
     const dispatch = useDispatch();
 
     const history = useNavigate();
 
     const { cartItems } = useSelector(state => state.cart);
-
-    console.log("cart items is : ", cartItems);
-
-    let totalPrice = 0;
 
     const decreaseQuantity = (id, quantity) => {
         const newQty = quantity - 1;
@@ -39,18 +33,6 @@ const Cart = () => {
 
     const removeCartItemHandler = (id) => {
         dispatch(removeItemFromCart(id));
-    }
-
-    const calcTotalPrice = () => {
-        if(cartItems.length > 0) {
-            cartItems.forEach(item => {
-                totalPrice = totalPrice + item.price;
-            })
-            return totalPrice;
-        }
-        else {
-            return 0;
-        }
     }
 
     const checkoutHandler = () => {

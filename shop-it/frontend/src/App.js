@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import {Provider, useSelector} from 'react-redux';
 import {BrowserRouter as Router, Routes, Route, BrowserRouter} from 'react-router-dom';
 import './App.css';
@@ -20,11 +20,24 @@ import NewPassword from "./components/user/NewPassword";
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
+import axios from "axios";
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
+import Payment from "./components/cart/Payment";
+import OrderSuccess from "./components/cart/OrderSuccess";
 
 function App() {
 
+    const [stripeAPIKey, setStripeAPIKey] = useState('');
+
     useEffect(() => {
         store.dispatch(loadUser());
+
+        async function getStripeAPIKey() {
+            const { data } = await axios.get(`/api/v1/stripeapi`);
+            setStripeAPIKey(data.stripeAPIKey);
+        }
+        getStripeAPIKey();
     }, [])
 
   return (
@@ -97,6 +110,22 @@ function App() {
                        element={
                            <ProtectedRoute>
                                <ConfirmOrder />
+                           </ProtectedRoute>
+                       } exact
+                   />
+                   <Route
+                       path="/payment"
+                       element={stripeAPIKey &&
+                    <Elements stripe={loadStripe(stripeAPIKey)}>
+                        <ProtectedRoute>
+                            <Payment />
+                        </ProtectedRoute>
+                    </Elements>} exact />
+                   <Route
+                       path="/success"
+                       element={
+                           <ProtectedRoute>
+                               <OrderSuccess />
                            </ProtectedRoute>
                        } exact
                    />

@@ -102,9 +102,10 @@ const Shipping = () => {
                                 required
                                 onChange={(e) => setCountry(e.target.value)}
                             >
-                                {countryList.map((item, index) => {
-                                    return (<option className="form-control fs-3" key={index} value={item.name}>
-                                        {item.name}
+                                <option className="form-control fs-3" value="default">- Please Select a Country -</option>
+                                {countryList.map((country, index) => {
+                                    return (<option className="form-control fs-3" key={index} value={country.name}>
+                                        {country.name}
                                     </option>)
                                 })}
                             </select>

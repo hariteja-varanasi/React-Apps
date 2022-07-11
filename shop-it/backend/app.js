@@ -19,12 +19,14 @@ const products = require('./routes/product');
 const auth = require('./routes/auth');
 const admin = require('./routes/admin');
 const orders = require('./routes/order');
+const payment = require('./routes/payment');
 
 app.use(cors({origin: 'http://localhost:4200'}));
 app.use('/api/v1', products);
 app.use('/api/v1', auth);
 app.use('/api/v1', admin);
 app.use('/api/v1', orders);
+app.use('/api/v1', payment);
 
 //Middleware to handle errors
 app.use(errorMiddleware);

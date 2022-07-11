@@ -398,12 +398,12 @@ footer {
   border: 0;
   letter-spacing: 1px;
   line-height: 30px;
-  padding: 5px 10px 5px 15px;
+  padding: 15px 20px 15px 20px;
   color: grey;
   text-decoration: none;
   cursor: default;
   float: left;
-  height: auto;
+  height: 60px;
 }
 
 .incomplete {
@@ -422,6 +422,7 @@ footer {
   border-left: 15px solid #fa9c23;
   border-bottom: 20px solid transparent;
   margin-left: -1px;
+  height: 60px;
 }
 
 .triangle2-active {
@@ -431,6 +432,7 @@ footer {
   border-left: 15px solid #fff;
   border-bottom: 20px solid #fa9c23;
   margin-right: -1px;
+  height: 60px;
 }
 
 .triangle-incomplete {
@@ -440,6 +442,7 @@ footer {
   border-left: 15px solid #eeeeee;
   border-bottom: 20px solid transparent;
   margin-left: -1px;
+  height: 60px;
 }
 
 .triangle2-incomplete {
@@ -449,6 +452,7 @@ footer {
   border-left: 15px solid #fff;
   border-bottom: 20px solid #eeeeee;
   margin-right: -1px;
+  height: 60px;
 }
 
 /* User Profile */

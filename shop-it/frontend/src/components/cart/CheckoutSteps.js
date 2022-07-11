@@ -18,7 +18,7 @@ const CheckoutSteps = ({ shipping, confirmOrder, payment }) => {
                 </Link>)
             }
 
-            {confirmOrder ?
+            {shipping && confirmOrder ?
                 (<Link to="/order/confirm" className="float-right">
                     <div className="triangle2-active"></div>
                     <div className="step active-step">Confirm Order</div>
@@ -32,7 +32,7 @@ const CheckoutSteps = ({ shipping, confirmOrder, payment }) => {
                 </Link>)
             }
 
-            {payment ?
+            {shipping && confirmOrder && payment ?
                 (<Link to="/payment" className="float-right">
                     <div className="triangle2-active"></div>
                     <div className="step active-step">Payment</div>
