@@ -39,11 +39,10 @@ const Header = () => {
                     <Search />
                 </div>
 
-                <div className="col-3 col-lg-3 col-md-3 col-sm-3 mt-4 mt-md-0 text-center">
+                <div className="col-3 col-lg-3 col-md-3 col-sm-3 mt-4 mt-md-0 text-center float-start">
 
                     <Link to="/cart" style={{
-                        textDecoration: 'none',
-                        marginLeft: '10rem'
+                        textDecoration: 'none'
                     }}>
                         <span id="cart" className="btn fs-3">Cart</span>
                         <span className="btn fs-3 rounded-pill" id="cart_count">{cartItems.length}</span>
